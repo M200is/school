@@ -17,8 +17,10 @@ struct tm* t;
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-wchar_t guest_name[1000][1000];                      //방문객 이름
+wchar_t guest_name[100][100];                      //방문객 이름
+wchar_t out_guest[100];
 int guest_count = 0;                            //방문객 인원수
+
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -128,6 +130,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+
 //
 //  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -155,9 +158,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (LOWORD(wParam))
         {
         case 2:
-            GetWindowText(hEdit, guest_name[guest_count], 1000);
+            GetWindowText(hEdit, guest_name[guest_count], 100);
             SetWindowText(hWnd, guest_name[guest_count]);
             guest_count++;
+            break;
+        case 3:
+            int check = MessageBox(hWnd, L"퇴장하시겠습니까?", L"확인", MB_YESNO);
+            GetWindowText(hEdit, out_guest, 100);
+            if (check == IDYES)
+            {
+                for (int i = 0; i < guest_count; i++) {
+                    if (_tcscmp(guest_name[i], out_guest) == 0) {
+                        wcscpy_s(guest_name[i], 100, L"0x\9");
+                        MessageBox(hWnd, L"퇴장 처리되었습니다.", L"확인", MB_OK);
+                    }
+                }
+
+            }
+            break;
         }
         break;
     case WM_GETMINMAXINFO:
