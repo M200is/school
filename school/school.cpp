@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define MAX_LOADSTRING 100
+constexpr auto MAX_LOADSTRING = 100;
 
 time_t timer;
 struct tm* t;
