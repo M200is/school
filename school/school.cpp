@@ -144,12 +144,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static HWND hEdit;
+	int check;
 	switch (message)
 	{
 	case WM_CREATE:
 	{
-		hEdit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 375, 200, 250, 30, hWnd, (HMENU)1, hInst, NULL);
-		CreateWindow(L"button", L"들어가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 375, 250, 120, 30, hWnd, (HMENU)2, hInst, NULL);
+		hEdit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 375, 200, 250, 30, hWnd, (HMENU)1, hInst, NULL);		//입력 창 생성
+		CreateWindow(L"button", L"들어가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 375, 250, 120, 30, hWnd, (HMENU)2, hInst, NULL);			//버튼 생성
 		CreateWindow(L"button", L"나가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 505, 250, 120, 30, hWnd, (HMENU)3, hInst, NULL);
 		break;
 	}
@@ -157,19 +158,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		switch (LOWORD(wParam))
 		{
-		case 2:
-			GetWindowText(hEdit, guest_name[guest_count], 100);
+		case 2:																	//들어가기 버튼 눌렀을 때
+			GetWindowText(hEdit, guest_name[guest_count], 100);					//이름 배열에 추가
 			guest_count++;
 			MessageBox(hWnd, L"입장 처리되었습니다.", L"확인", MB_OK);
 			SetWindowText(hEdit, L"");
 			break;
 		case 3:
-			int check = MessageBox(hWnd, L"퇴장하시겠습니까?", L"확인", MB_YESNO);
+			check = MessageBox(hWnd, L"퇴장하시겠습니까?", L"확인", MB_YESNO);		//퇴장 버튼 눌렀을 떄
 			GetWindowText(hEdit, out_guest, 100);
 			if (check == IDYES)
 			{
-				for (int i = 0; i < guest_count; i++) {
-					if (_tcscmp(guest_name[i], out_guest) == 0) {
+				for (int i = 0; i < guest_count; i++) {								//배열에서 이름 찾기
+					if (_tcscmp(guest_name[i], out_guest) == 0) {					//이름 있을 경우 퇴장 처리
 						wcscpy_s(guest_name[i], 100, L"0x\9");
 						MessageBox(hWnd, L"퇴장 처리되었습니다.", L"확인", MB_OK);
 						check_inlist = 1;
@@ -177,7 +178,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						break;
 					}
 				}
-				if (check_inlist != 1) {
+				if (check_inlist != 1) {			//이름 없으면 경고
 					MessageBox(hWnd, L"이름이 등록되어 있지 않습니다.", L"확인", MB_OK);
 				}
 			}
@@ -186,7 +187,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_GETMINMAXINFO:
 	{
-		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;			//창 크기 고정
 		lpMMI->ptMinTrackSize.x = 1000;
 		lpMMI->ptMinTrackSize.y = 500;
 		lpMMI->ptMaxTrackSize.x = 1000;
