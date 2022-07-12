@@ -159,7 +159,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case 2:
 			GetWindowText(hEdit, guest_name[guest_count], 100);
-			SetWindowText(hWnd, guest_name[guest_count]);
 			guest_count++;
 			MessageBox(hWnd, L"입장 처리되었습니다.", L"확인", MB_OK);
 			SetWindowText(hEdit, L"");
