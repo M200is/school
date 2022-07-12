@@ -20,7 +20,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 wchar_t guest_name[100][100];                      //방문객 이름
 wchar_t out_guest[100];
 int guest_count = 0;                            //방문객 인원수
-
+int check_inlist = 0;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -31,47 +31,47 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // LPCWSTR to char
 void WCharToChar(const wchar_t* pwstrSrc, char pstrDest[])
 {
-    int nLen = (int)wcslen(pwstrSrc);
-    size_t ConvertedChars;
-    wcstombs_s(&ConvertedChars, pstrDest, sizeof(pstrDest), pwstrSrc, nLen + 1);
+	int nLen = (int)wcslen(pwstrSrc);
+	size_t ConvertedChars;
+	wcstombs_s(&ConvertedChars, pstrDest, sizeof(pstrDest), pwstrSrc, nLen + 1);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: 여기에 코드를 입력합니다.
+	// TODO: 여기에 코드를 입력합니다.
 
-    // 전역 문자열을 초기화합니다.
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_SCHOOL, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+	// 전역 문자열을 초기화합니다.
+	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+	LoadStringW(hInstance, IDC_SCHOOL, szWindowClass, MAX_LOADSTRING);
+	MyRegisterClass(hInstance);
 
-    // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
-    }
+	// 애플리케이션 초기화를 수행합니다:
+	if (!InitInstance(hInstance, nCmdShow))
+	{
+		return FALSE;
+	}
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SCHOOL));
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SCHOOL));
 
-    MSG msg;
+	MSG msg;
 
-    // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+	// 기본 메시지 루프입니다:
+	while (GetMessage(&msg, nullptr, 0, 0))
+	{
+		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
 
-    return (int) msg.wParam;
+	return (int)msg.wParam;
 }
 
 
@@ -83,23 +83,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+	WNDCLASSEXW wcex;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SCHOOL));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_SCHOOL);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SCHOOL));
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_SCHOOL);
+	wcex.lpszClassName = szWindowClass;
+	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+	return RegisterClassExW(&wcex);
 }
 
 //
@@ -114,20 +114,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+	hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+	if (!hWnd)
+	{
+		return FALSE;
+	}
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
-   return TRUE;
+	return TRUE;
 }
 
 
@@ -143,76 +143,83 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static HWND hEdit;
-    switch (message)
-    {
-    case WM_CREATE:
-    {
-        hEdit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 375, 200, 250, 30, hWnd, (HMENU)1, hInst, NULL);
-        CreateWindow(L"button", L"들어가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 375, 250, 120, 30, hWnd, (HMENU)2, hInst, NULL);
-        CreateWindow(L"button", L"나가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 505, 250, 120, 30, hWnd, (HMENU)3, hInst, NULL);
-        break;
-    }
-    case WM_COMMAND:
-    {
-        switch (LOWORD(wParam))
-        {
-        case 2:
-            GetWindowText(hEdit, guest_name[guest_count], 100);
-            SetWindowText(hWnd, guest_name[guest_count]);
-            guest_count++;
-            break;
-        case 3:
-            int check = MessageBox(hWnd, L"퇴장하시겠습니까?", L"확인", MB_YESNO);
-            GetWindowText(hEdit, out_guest, 100);
-            if (check == IDYES)
-            {
-                for (int i = 0; i < guest_count; i++) {
-                    if (_tcscmp(guest_name[i], out_guest) == 0) {
-                        wcscpy_s(guest_name[i], 100, L"0x\9");
-                        MessageBox(hWnd, L"퇴장 처리되었습니다.", L"확인", MB_OK);
-                    }
-                }
-
-            }
-            break;
-        }
-        break;
-    case WM_GETMINMAXINFO:
-    {
-        LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-        lpMMI->ptMinTrackSize.x = 1000;
-        lpMMI->ptMinTrackSize.y = 500;
-        lpMMI->ptMaxTrackSize.x = 1000;
-        lpMMI->ptMaxTrackSize.y = 500;
-        return 0;
-    }
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
-    }
+	static HWND hEdit;
+	switch (message)
+	{
+	case WM_CREATE:
+	{
+		hEdit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 375, 200, 250, 30, hWnd, (HMENU)1, hInst, NULL);
+		CreateWindow(L"button", L"들어가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 375, 250, 120, 30, hWnd, (HMENU)2, hInst, NULL);
+		CreateWindow(L"button", L"나가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 505, 250, 120, 30, hWnd, (HMENU)3, hInst, NULL);
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case 2:
+			GetWindowText(hEdit, guest_name[guest_count], 100);
+			SetWindowText(hWnd, guest_name[guest_count]);
+			guest_count++;
+			MessageBox(hWnd, L"입장 처리되었습니다.", L"확인", MB_OK);
+			SetWindowText(hEdit, L"");
+			break;
+		case 3:
+			int check = MessageBox(hWnd, L"퇴장하시겠습니까?", L"확인", MB_YESNO);
+			GetWindowText(hEdit, out_guest, 100);
+			if (check == IDYES)
+			{
+				for (int i = 0; i < guest_count; i++) {
+					if (_tcscmp(guest_name[i], out_guest) == 0) {
+						wcscpy_s(guest_name[i], 100, L"0x\9");
+						MessageBox(hWnd, L"퇴장 처리되었습니다.", L"확인", MB_OK);
+						check_inlist = 1;
+						SetWindowText(hEdit, L"");
+						break;
+					}
+				}
+				if (check_inlist != 1) {
+					MessageBox(hWnd, L"이름이 등록되어 있지 않습니다.", L"확인", MB_OK);
+				}
+			}
+			break;
+		}
+		break;
+	case WM_GETMINMAXINFO:
+	{
+		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+		lpMMI->ptMinTrackSize.x = 1000;
+		lpMMI->ptMinTrackSize.y = 500;
+		lpMMI->ptMaxTrackSize.x = 1000;
+		lpMMI->ptMaxTrackSize.y = 500;
+		return 0;
+	}
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
+	}
 }
 
 // 정보 대화 상자의 메시지 처리기입니다.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
 
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
 }
