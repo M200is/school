@@ -53,10 +53,10 @@ std::wstring currentDateTime()
 
 std::wstring concatenate(wchar_t* list, wstring time) {
 	wchar_t guest_name[1000];
-	wcsncpy_s(guest_name, list, sizeof(list)+1);
-	wcscat_s(guest_name, 10, L"------");
+	wcsncpy_s(guest_name, list, 100);
+	wcscat_s(guest_name, 100, L"------");
 	const wchar_t* wcs = time.c_str();
-	wcscat_s(guest_name, 100, wcs);
+	wcscat_s(guest_name, 500, wcs);
 	return guest_name;
 }
 
@@ -218,6 +218,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		CreateWindow(L"button", L"들어가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 375, 250, 120, 30, hWnd, (HMENU)2, hInst, NULL);			//버튼 생성
 		CreateWindow(L"button", L"나가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 505, 250, 120, 30, hWnd, (HMENU)3, hInst, NULL);
 		CreateWindow(L"button", L"출입기록 확인", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 10, 120, 30, hWnd, (HMENU)4, hInst, NULL);
+		CreateWindow(L"static", L"이름과 전화번호를 써주세요. ex)홍길동-01012345678", WS_CHILD | WS_VISIBLE, 375, 100, 250, 30, hWnd, (HMENU)-1, hInst, NULL);
 		break;
 	}
 	case WM_COMMAND:
@@ -259,6 +260,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				MessageBox(hWnd, L"이미 입장하셨습니다.", L"경고", MB_OK);
+				SetWindowText(hEdit, L"");
 			}
 			break;
 		case 3:
