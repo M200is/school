@@ -281,6 +281,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				if (check_inlist != 1) {			//이름 없으면 경고
 					MessageBox(hWnd, L"이름이 등록되어 있지 않습니다.", L"경고", MB_OK);
+					SetWindowText(hEdit, L"");
 				}
 			}
 			break;
