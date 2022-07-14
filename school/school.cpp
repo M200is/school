@@ -219,6 +219,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		CreateWindow(L"button", L"나가기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 505, 250, 120, 30, hWnd, (HMENU)3, hInst, NULL);
 		CreateWindow(L"button", L"출입기록 확인", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 10, 120, 30, hWnd, (HMENU)4, hInst, NULL);
 		CreateWindow(L"static", L"이름과 전화번호를 써주세요. ex)홍길동-01012345678", WS_CHILD | WS_VISIBLE, 375, 100, 250, 30, hWnd, (HMENU)-1, hInst, NULL);
+		CreateWindow(L"static", L"10718 장하윤", WS_CHILD | WS_VISIBLE, 800, 400, 250, 30, hWnd, (HMENU)-2, hInst, NULL);
 		break;
 	}
 	case WM_COMMAND:
